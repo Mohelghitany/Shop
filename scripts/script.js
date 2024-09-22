@@ -37,7 +37,7 @@ document.getElementById('signupForm').addEventListener('submit', function (event
 
        
         setTimeout(function () {
-            switchToSignIn();
+            switchToSignInLink();
             document.getElementById('signupMessage').textContent = '';  
         }, 2000);
     }
