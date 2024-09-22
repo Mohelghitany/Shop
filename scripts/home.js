@@ -5,7 +5,7 @@ const products = [
         name: "Lighter",
         description: "A top-quality item that you must have in your collection.",
         price: 10.99,
-        image: "../images/product1.jpeg"
+        image: "../../images/product1.jpeg"
     },
     {
         id: 2,
