@@ -1,9 +1,12 @@
+const LOCAL_STORAGE_KEYS = {
+    USERS: 'users',
+    CURRENT_USER: 'currentUser',
+};
 
 const signInFormDiv = document.getElementById('signinFormDiv');
 const signUpFormDiv = document.getElementById('signupFormDiv');
 const switchToSignUpLink = document.getElementById('switchToSignUp');
 const switchToSignInLink = document.getElementById('switchToSignIn');
-
 
 switchToSignUpLink.addEventListener('click', function (event) {
     event.preventDefault();
@@ -11,13 +14,11 @@ switchToSignUpLink.addEventListener('click', function (event) {
     signUpFormDiv.style.display = 'block';
 });
 
-
 switchToSignInLink.addEventListener('click', function (event) {
     event.preventDefault();
     signUpFormDiv.style.display = 'none';
     signInFormDiv.style.display = 'block';
 });
-
 
 document.getElementById('signupForm').addEventListener('submit', function (event) {
     event.preventDefault();
@@ -27,24 +28,28 @@ document.getElementById('signupForm').addEventListener('submit', function (event
     const email = document.getElementById('signupEmail').value;
     const password = document.getElementById('signupPassword').value;
 
-    const user = { name, birthDate, email, password };
+    if (!name || !birthDate || !email || !password) {
+        document.getElementById('signupMessage').textContent = 'Please fill in all fields.';
+        return;
+    }
 
-    if (localStorage.getItem(email)) {
+    const users = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.USERS)) || {};
+
+    if (users[email]) {
         document.getElementById('signupMessage').textContent = 'Account already exists!';
     } else {
-        localStorage.setItem(email, JSON.stringify(user));
+        users[email] = { name, birthDate, password };
+        localStorage.setItem(LOCAL_STORAGE_KEYS.USERS, JSON.stringify(users));
         document.getElementById('signupMessage').textContent = 'Account created successfully! Redirecting to sign-in...';
-
-       
-        setTimeout(function () {
-            switchToSignInLink();
-            document.getElementById('signupMessage').textContent = '';  
+        
+        setTimeout(() => {
+            switchToSignInLink.click();
+            document.getElementById('signupMessage').textContent = '';
         }, 2000);
     }
 
     document.getElementById('signupForm').reset();
 });
-
 
 document.getElementById('signinForm').addEventListener('submit', function (event) {
     event.preventDefault();
@@ -52,19 +57,15 @@ document.getElementById('signinForm').addEventListener('submit', function (event
     const email = document.getElementById('signinEmail').value;
     const password = document.getElementById('signinPassword').value;
 
-    const storedUser = localStorage.getItem(email);
+    const users = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.USERS)) || {};
 
-    if (storedUser) {
-        const user = JSON.parse(storedUser);
-        if (user.password === password) {
-            document.getElementById('signinMessage').textContent = `Sign-in successful! Welcome, ${user.name}`;
+    if (users[email]) {
+        if (users[email].password === password) {
+            document.getElementById('signinMessage').textContent = `Sign-in successful! Welcome, ${users[email].name}`;
             document.getElementById('signinMessage').style.color = 'green';
-
+            localStorage.setItem(LOCAL_STORAGE_KEYS.CURRENT_USER, email);
             
-            localStorage.setItem('currentUser', email);
-
-           
-            setTimeout(function () {
+            setTimeout(() => {
                 window.location.href = 'index.html';
             }, 1000);
         } else {
