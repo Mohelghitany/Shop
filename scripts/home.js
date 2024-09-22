@@ -5,21 +5,21 @@ const products = [
         name: "Lighter",
         description: "A top-quality item that you must have in your collection.",
         price: 10.99,
-        image: "/images/product1.jpeg"
+        image: "images/product1.jpeg"
     },
     {
         id: 2,
         name: "Cleaner",
         description: "A stylish and modern item that enhances any space.",
         price: 15.99,
-        image: "/images/product2.jpeg"
+        image: "images/product2.jpeg"
     },
     {
         id: 3,
         name: "Scoop",
         description: "This product is known for its durability and performance.",
         price: 12.50,
-        image: "/images/product3.jpeg"
+        image: "images/product3.jpeg"
     },
     {
         id: 4,
