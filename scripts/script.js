@@ -65,7 +65,7 @@ document.getElementById('signinForm').addEventListener('submit', function (event
 
            
             setTimeout(function () {
-                window.location.href = 'home.html';
+                window.location.href = 'index.html';
             }, 1000);
         } else {
             document.getElementById('signinMessage').textContent = 'Invalid password!';
